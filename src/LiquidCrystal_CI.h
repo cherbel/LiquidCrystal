@@ -63,15 +63,22 @@ public:
   }
   std::vector<std::string> getLines() { return _lines; }
   int getRows() { return _rows; }
+  bool isAutoscroll() { return _autoscroll; }
   bool isBlink() { return _blink; }
   bool isCursor() { return _cursor; }
   bool isDisplay() { return _display; }
+  byte *getCustomCharacter(uint8_t customChar) {
+    return _customChars[customChar];
+  }
+  int getCursorCol() { return _col; }
+  int getCursorRow() { return _row; }
 
 private:
   static LiquidCrystal_CI *_instances[MOCK_PINS_COUNT];
   int _col, _cols, _row, _rows, _rs_pin;
-  bool _display, _cursor, _blink;
+  bool _display, _cursor, _blink, _autoscroll;
   std::vector<std::string> _lines;
+  byte _customChars[8][8];
   void init(uint8_t rs);
 };
 

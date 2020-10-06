@@ -308,7 +308,7 @@ unittest(printLines_high) {
   LiquidCrystal_Test lcd(rs, enable, d4, d5, d6, d7);
   // reset lcd to have two lines
   lcd.begin(16, 2);
-  
+
   // Test C String
   lcd.print("C String");
   lines = lcd.getLines();
@@ -318,7 +318,7 @@ unittest(printLines_high) {
   assertEqual(0, lines.at(1).length());
   lcd.clear();
 
-  //Test String
+  // Test String
   lcd.setCursor(0, 0);
   lcd.print(String("Test String"));
   lines = lcd.getLines();
@@ -328,7 +328,7 @@ unittest(printLines_high) {
   assertEqual(0, lines.at(1).length());
   lcd.clear();
 
-  //Test Unsigned Char to Decimal
+  // Test Unsigned Char to Decimal
   lcd.setCursor(0, 0);
   lcd.print(String('Test Unsigned Char to DEC', DEC));
   lines = lcd.getLines();
@@ -338,7 +338,7 @@ unittest(printLines_high) {
   assertEqual(0, lines.at(1).length());
   lcd.clear();
 
-  //Test INT
+  // Test INT
   lcd.setCursor(0, 0);
   lcd.print(String(100, DEC));
   lines = lcd.getLines();

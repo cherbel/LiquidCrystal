@@ -517,3 +517,32 @@ unittest(setCursor) {
   lcd.setCursor(15, 1);
   assertTrue(pinValues.isEqualTo(expected));
 }
+
+/*     rs rw  d7 to d0
+  576 : 1  0  0100
+  528 : 1  0      0001  0x41
+  624 : 1  0  0111
+  592 : 1  0      0101  0x75
+  624 : 1  0  0111
+  560 : 1  0      0011  0x73
+  624 : 1  0  0111
+  576 : 1  0      0100  0x74
+  608 : 1  0  0110
+  656 : 1  0      1001  0x69
+  608 : 1  0  0110
+  736 : 1  0      1110  0x6E
+*/
+unittest(write) {
+  vector<int> expected{576, 528, 624, 592, 624, 560,
+                       624, 576, 608, 656, 608, 736};
+  LiquidCrystal_Test lcd(rs, enable, d4, d5, d6, d7);
+  lcd.begin(16, 2);
+  BitCollector pinValues(true); // test the next line
+  lcd.write('A');
+  lcd.write('u');
+  lcd.write('s');
+  lcd.write('t');
+  lcd.write('i');
+  lcd.write('n');
+  assertTrue(pinValues.isEqualTo(expected));
+}

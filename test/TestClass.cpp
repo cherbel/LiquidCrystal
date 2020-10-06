@@ -33,8 +33,8 @@ unittest(autoscroll_high) {
   lines = lcd.getLines();
   assertEqual(2, lines.size());
   // uncomment when print works
-  // assertEqual(10, lines.at(0).length());
-  // assertEqual("0123456789", lines.at(0));
+  assertEqual(10, lines.at(0).length());
+  assertEqual("0123456789", lines.at(0));
   assertEqual(0, lines.at(1).length());
 
   // set the cursor to (16,1):
@@ -57,7 +57,6 @@ unittest(autoscroll_high) {
 
     // compare expected to actual
     lines = lcd.getLines();
-    // uncomment when print works
     // assertEqual(16, lines.at(1).length());
     // assertEqual(expected, lines.at(1));
 
@@ -95,8 +94,8 @@ unittest(clear_high) {
   // verify display not empty
   lines = lcd.getLines();
   assertEqual(2, lines.size());
-  // assertEqual(11, lines.at(0).length());
-  // assertEqual("hello world", lines.at(0));
+  assertEqual(11, lines.at(0).length());
+  assertEqual("hello world", lines.at(0));
   assertEqual(0, lines.at(1).length());
 
   // clear display
@@ -132,7 +131,35 @@ unittest(createChar_high) {
 unittest(write_high) {
   // create lcd object
   LiquidCrystal_Test lcd(rs, enable, d4, d5, d6, d7);
-  // TODO
+  lcd.begin(16, 2);
+  // get currently displayed lines
+  std::vector<std::string> lines = lcd.getLines();
+  // verify that display contains 2 empty lines
+  assertEqual(2, lines.size());
+  assertEqual(0, lines.at(0).length());
+  assertEqual(0, lines.at(1).length());
+
+  // Write stuff
+  lcd.write('A');
+
+  // Testing one character
+  lines = lcd.getLines();
+  assertEqual(2, lines.size());
+  assertEqual(1, lines.at(0).length());
+  assertEqual("A", lines.at(0));
+  assertEqual('A', lines.at(0).at(0));
+  assertEqual(0, lines.at(1).length());
+
+  // testing multiple character inputs
+  lcd.write('u');
+  lcd.write('s');
+  lcd.write('t');
+  lcd.write('i');
+  lcd.write('n');
+  lines = lcd.getLines();
+  assertEqual(2, lines.size());
+  assertEqual(6, lines.at(0).length());
+  assertEqual("Austin", lines.at(0));
 }
 
 unittest(print_high) {
@@ -152,10 +179,18 @@ unittest(setCursor_high) {
   assertEqual(0, lcd.getCursorCol());
   assertEqual(0, lcd.getCursorRow());
 
+  lcd.print("Line0");
+  assertEqual(5, lcd.getCursorCol());
+  assertEqual(0, lcd.getCursorRow());
+
   // set cursor to second line
   lcd.setCursor(0, 1);
   // verify cursor position
   assertEqual(0, lcd.getCursorCol());
+  assertEqual(1, lcd.getCursorRow());
+
+  lcd.print("Line1");
+  assertEqual(5, lcd.getCursorCol());
   assertEqual(1, lcd.getCursorRow());
 
   // set cursor to middle of first line
@@ -163,6 +198,16 @@ unittest(setCursor_high) {
   // verify cursor position
   assertEqual(4, lcd.getCursorCol());
   assertEqual(0, lcd.getCursorRow());
+  lcd.write('X');
+  assertEqual(5, lcd.getCursorCol());
+  assertEqual(0, lcd.getCursorRow());
+
+  lcd.setCursor(8, 0);
+  lcd.write('Y');
+
+  std::vector<std::string> lines = lcd.getLines();
+  assertEqual("LineX   Y", lines.at(0));
+  assertEqual("Line1", lines.at(1));
 }
 
 unittest(home_high) {
@@ -188,18 +233,17 @@ unittest(home_high) {
   assertEqual(0, lcd.getCursorCol());
   assertEqual(0, lcd.getCursorRow());
 
-  /* When print works
   // Print message
   lcd.print("Test line");
-  //Check Cursor Location
-  assertNotEqual(0, getCursorCol());;
+  // Check Cursor Location
+  assertNotEqual(0, lcd.getCursorCol());
+  ;
 
   // Return Home
   lcd.home();
   // Check Cursor is at upper-left
   assertEqual(0, lcd.getCursorCol());
   assertEqual(0, lcd.getCursorRow());
-  */
 }
 
 unittest(display_high) {

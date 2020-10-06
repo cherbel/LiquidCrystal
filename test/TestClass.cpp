@@ -301,7 +301,7 @@ unittest(cursor_high) {
   assertEqual(false, lcd.isCursor());
 }
 
-unittest(printing_high) {
+unittest(printLines_high) {
 
   std::vector<std::string> lines;
   // create lcd object
